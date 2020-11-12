@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Dashboard</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+            
+            .chart-panel .ui-panel-content {
+                overflow: auto;
+            }
+            .images {
+            	display: block;
+    			margin-left: auto;
+    			margin-right: auto;
+    			width: 50%;
+            }
+            .tables {
+            	margin-left: auto;
+  				margin-right: auto;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="ui-g dashboard">
+        	<div class="ui-g-12 card">
+        		<h:form class="ui-g-12">
+        		<div class="ui-g-3">
+	            	<p:graphicImage class="images" name="images/drop.png" library="ultima-layout" />
+        			<h3 style="margin-top: 0; text-align: center">Вода</h3>
+        			<h:panelGrid class="tables"  columns="1" style="margin-bottom: 10px">
+					        <p:inputText id="water" value="#{sliderInput.water}" />
+					        <p:slider for="water" />
+    				</h:panelGrid>
+    			</div>	
+    			<div class="ui-g-3">
+    				<p:graphicImage class="images" name="images/heater.png" library="ultima-layout" />
+    				<h3 style="margin-top: 0; text-align: center">Опалення</h3>
+        			<h:panelGrid class="tables"  columns="1" style="margin-bottom: 10px">
+					        <p:inputText id="warm" value="#{sliderInput.warm}" />
+					        <p:slider for="warm" />
+    				</h:panelGrid>
+    			</div>	
+    			<div class="ui-g-3">
+    				<p:graphicImage class="images" name="images/flame.png" library="ultima-layout" />
+    				<h3 style="margin-top: 0; text-align: center">Газ</h3>
+        			<h:panelGrid class="tables"  columns="1" style="margin-bottom: 10px">
+					        <p:inputText id="gas" value="#{sliderInput.gas}" />
+					        <p:slider for="gas" />
+    				</h:panelGrid>
+    			</div>
+    			<div class="ui-g-3">
+    				<p:graphicImage class="images" name="images/lighting.png" library="ultima-layout" />
+    				<h3 style="margin-top: 0; text-align: center">Електрика</h3>
+        			<h:panelGrid class="tables" columns="1" style="margin-bottom: 10px">
+					        <p:inputText id="electricity" value="#{sliderInput.electricity}" />
+					        <p:slider for="electricity" />
+    				</h:panelGrid>
+    			</div>
+    			<div class="ui-g-12">
+	                    <p:commandButton value="Отримати квітанцію" action="#{sliderInput.createBill}"/>
+	             </div>
+        		</h:form>
+        	</div>         
+
+        </div>
+    </ui:define>
+
+</ui:composition>

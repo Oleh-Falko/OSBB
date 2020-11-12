@@ -1,0 +1,24 @@
+<project name="Base">
+
+	<property name="target.dir" value="target" />
+
+	<condition property="mvn.executable" value="c:/apps/maven/bin/mvn.cmd" else="/Users/andriyfalko/apps/maven/bin/mvn">
+		<os family="windows"/>
+	</condition>
+	
+
+	<target name="Deploy to wildfly">
+
+        <exec executable="${mvn.executable}" dir="." failonerror="false">
+			<env key="MAVEN_OPTS" value="-Xmx1024m -Xms512m -DskipTests=true -Dmaven.test.skip=true" />
+			<arg line="wildfly:undeploy -e" />
+		</exec>
+        		
+
+		<exec executable="${mvn.executable}" dir="." failonerror="true">
+			<env key="MAVEN_OPTS" value="-Xmx1024m -Xms512m -DskipTests=true -Dmaven.test.skip=true" />
+			<arg line="clean wildfly:deploy -e" />
+		</exec>
+	</target>	
+
+</project>
