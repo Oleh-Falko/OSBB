@@ -51,47 +51,68 @@ import org.primefaces.model.chart.PieChartModel;
 
 @Named
 @SessionScoped
-public class UserLogin implements Serializable {
-	private String login;
-	private String pwd;
+public class WaterPay implements Serializable {
+	private int past_coldwater;
+	private int past_warmwater;
+	private int present_coldwater;
+	private int present_warmwater;
+	private int pay;
 	
-
-    @PostConstruct
+	@PostConstruct
     public void init() {
-    	setLogin("");
-    	setPwd("");
-	}
-
-
-	public String getLogin() {
-		return login;
-	}
-
-
-	public void setLogin(String login) {
-		System.out.println("Login="+login);
-		this.login = login;
-	}
-
-
-	public String getPwd() {
-		return pwd;
-	}
-
-
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+    	setPast_coldwater(0);
+    	setPast_warmwater(0);
+    	setPresent_coldwater(0);
+    	setPresent_warmwater(0);
+    	setPay(0);
 	}
 	
-	public void checkLogin() throws Exception {
-		if (login.equals("164") && pwd.equals("164")) {
-			System.out.println("Login success");
-			FacesContext.getCurrentInstance().getExternalContext().redirect("dashboard2.xhtml");			
-		} else {
-			System.out.println("Login failed");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Login failed."));
-		}
+	
+	public int getPast_coldwater() {
+		return past_coldwater;
+	}
+	
+	public void setPast_coldwater(int past_coldwater) {
+		this.past_coldwater = past_coldwater;
+	}
+
+	public int getPast_warmwater() {
+		return past_warmwater;
+	}
+
+	public void setPast_warmwater(int past_warmwater) {
+		this.past_warmwater = past_warmwater;
+	}
+
+	public int getPresent_coldwater() {
+		return present_coldwater;
+	}
+
+	public void setPresent_coldwater(int present_coldwater) {
+		this.present_coldwater = present_coldwater;
+	}
+
+	public int getPresent_warmwater() {
+		return present_warmwater;
+	}
+
+	public void setPresent_warmwater(int present_warmwater) {
+		this.present_warmwater = present_warmwater;
 	}
 
 
+	public int getPay() {
+		return pay;
+	}
+
+
+	public void setPay(int pay) {
+		this.pay = pay;
+	}
+	
+	public void handleKeyEvent()
+	{
+		pay = present_warmwater;
+	}
+	
 }
