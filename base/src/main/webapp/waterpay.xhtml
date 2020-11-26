@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12 card">
+               <h:form>
+               <div class="ui-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-6">
+            <p:outputLabel for="firstname6" value="Firstname" />
+            <p:inputText id="firstname6" />
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+            <p:outputLabel for="lastname6" value="Lastname" />
+            <p:inputText id="lastname6" />
+        </div>
+       			</div>
+               </h:form>
+            </div>
+        </div>
+        
+    </ui:define>
+
+</ui:composition>

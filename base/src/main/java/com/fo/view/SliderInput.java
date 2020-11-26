@@ -107,7 +107,7 @@ public class SliderInput implements Serializable {
 	}
 
 	public void createBill() throws Exception {
-		System.out.println(water + ' ' + warm + ' ' + gas + ' ' + electricity);
+		System.out.println(electricity);
 	}
 
 

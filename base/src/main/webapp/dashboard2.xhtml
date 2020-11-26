@@ -55,49 +55,62 @@
             	margin-left: auto;
   				margin-right: auto;
             }
+            .butt {
+            	border-radius: 10px;
+            	width: 30%;
+    			margin: 1%;
+            }
+            .butt:hover {
+            	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+            }
+            .payButt {
+            	margin-top: 1%;
+    			display: flex;
+    			justify-content: center;
+            }
+            
         </style>
     </ui:define>
 
     <ui:define name="content">
         <div class="ui-g dashboard">
         	<div class="ui-g-12 card">
-        		<h:form class="ui-g-12">
-        		<div class="ui-g-3">
+        		<div class="ui-g-4 card butt">
 	            	<p:graphicImage class="images" name="images/drop.png" library="ultima-layout" />
-        			<h3 style="margin-top: 0; text-align: center">Вода</h3>
-        			<h:panelGrid class="tables"  columns="1" style="margin-bottom: 10px">
-					        <p:inputText id="water" value="#{sliderInput.water}" />
-					        <p:slider for="water" />
-    				</h:panelGrid>
+	            	<p:linkButton class="payButt" outcome="waterpay" value="Оплата">
+   						<f:param name="waterpay" value="10" />
+					</p:linkButton>
     			</div>	
-    			<div class="ui-g-3">
+    			<div class="ui-g-4 card butt">
     				<p:graphicImage class="images" name="images/heater.png" library="ultima-layout" />
-    				<h3 style="margin-top: 0; text-align: center">Опалення</h3>
-        			<h:panelGrid class="tables"  columns="1" style="margin-bottom: 10px">
-					        <p:inputText id="warm" value="#{sliderInput.warm}" />
-					        <p:slider for="warm" />
-    				</h:panelGrid>
+    				<p:linkButton class="payButt" outcome="heatpay" value="Оплата">
+   						<f:param name="heatpay" value="10" />
+					</p:linkButton>
     			</div>	
-    			<div class="ui-g-3">
+    			<div class="ui-g-4 card butt">
     				<p:graphicImage class="images" name="images/flame.png" library="ultima-layout" />
-    				<h3 style="margin-top: 0; text-align: center">Газ</h3>
-        			<h:panelGrid class="tables"  columns="1" style="margin-bottom: 10px">
-					        <p:inputText id="gas" value="#{sliderInput.gas}" />
-					        <p:slider for="gas" />
-    				</h:panelGrid>
+    				<p:linkButton class="payButt" outcome="gaspay" value="Оплата">
+   						<f:param name="gaspay" value="10" />
+					</p:linkButton>
     			</div>
-    			<div class="ui-g-3">
+    			<div class="ui-g-4 card butt">
     				<p:graphicImage class="images" name="images/lighting.png" library="ultima-layout" />
-    				<h3 style="margin-top: 0; text-align: center">Електрика</h3>
-        			<h:panelGrid class="tables" columns="1" style="margin-bottom: 10px">
-					        <p:inputText id="electricity" value="#{sliderInput.electricity}" />
-					        <p:slider for="electricity" />
-    				</h:panelGrid>
+    				<p:linkButton class="payButt" outcome="waterpay" value="Оплата">
+   						<f:param name="waterpay" value="10" />
+					</p:linkButton>
     			</div>
-    			<div class="ui-g-12">
-	                    <p:commandButton value="Отримати квітанцію" action="#{sliderInput.createBill}"/>
-	             </div>
-        		</h:form>
+    			<div class="ui-g-4 card butt">
+    				<p:graphicImage class="images" name="images/lighting.png" library="ultima-layout" />
+    				<p:linkButton class="payButt" outcome="waterpay" value="Оплата">
+   						<f:param name="waterpay" value="10" />
+					</p:linkButton>
+    			</div>
+    			<div class="ui-g-4 card butt">
+    				<p:graphicImage class="images" name="images/lighting.png" library="ultima-layout" />
+    				<p:linkButton class="payButt" outcome="waterpay" value="Оплата">
+   						<f:param name="waterpay" value="10" />
+					</p:linkButton>
+    			</div>
         	</div>         
 
         </div>
