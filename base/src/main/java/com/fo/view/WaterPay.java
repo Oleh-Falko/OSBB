@@ -56,7 +56,9 @@ public class WaterPay implements Serializable {
 	private int past_warmwater;
 	private int present_coldwater;
 	private int present_warmwater;
-	private int pay;
+	private double pay;
+	private double price_coldwater = 1.5;
+	private double price_warmwater = 2.5;
 	
 	@PostConstruct
     public void init() {
@@ -101,18 +103,19 @@ public class WaterPay implements Serializable {
 	}
 
 
-	public int getPay() {
+	public double getPay() {
 		return pay;
 	}
 
 
-	public void setPay(int pay) {
+	public void setPay(double pay) {
 		this.pay = pay;
 	}
 	
 	public void handleKeyEvent()
 	{
-		pay = present_warmwater;
+		pay = ((present_coldwater - past_coldwater)*price_coldwater) + ((present_warmwater - past_warmwater)*price_warmwater);
 	}
+	
 	
 }

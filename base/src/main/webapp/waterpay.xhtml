@@ -8,6 +8,7 @@
     <ui:define name="content">
         <div class="ui-g">
             <div class="ui-g-12 card">
+            <h:form>
                <div class="ui-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 ui-g-6">
             <p:outputLabel for="firstname" value="Ім'я" />
@@ -17,47 +18,48 @@
             <p:outputLabel for="lastname" value="Прізвище" />
             <p:inputText id="lastname" />
         </div>
-        <div class="p-field p-col-12 ui-g-12">
+        <div class="p-field p-col-12 ui-g-4">
             <h:outputText value="Лічильник: " />
         </div>
-        <div class="p-field p-col-12 ui-g-3">
+        <div class="p-field p-col-12 ui-g-4">
+            <h:outputText value="Попередні показники" />
+        </div>
+        <div class="p-field p-col-12 ui-g-4">
+            <h:outputText value="Поточні показники" />
+        </div>
+        <div class="p-field p-col-12 ui-g-4">
             <p:outputLabel value="Холодна вода" />
         </div>
-        <div class="p-field p-col-12 ui-g-3">
-            <p:inputText placeholder="Попередні" value="#{waterPay.past_coldwater}">
+        <div class="p-field p-col-12 ui-g-4">
+            <p:inputText id="counter1" value="#{waterPay.past_coldwater}">
             	<p:ajax event="keyup" update="out" listener="#{waterPay.handleKeyEvent}" />
             </p:inputText>
         </div>
-         <div class="p-field p-col-12 ui-g-3">
-            <p:inputText placeholder="Поточні" value="#{waterPay.present_coldwater}">
+        <div class="p-field p-col-12 ui-g-4">
+            <p:inputText id="counter2" value="#{waterPay.present_coldwater}">
             	<p:ajax event="keyup" update="out" listener="#{waterPay.handleKeyEvent}" />
-            </p:inputText> 
+            </p:inputText>
         </div>
-         <div class="p-field p-col-12 ui-g-3">
-            <p:inputText placeholder="Борг" /> 
-        </div>
-        <div class="p-field p-col-12 ui-g-3">
+        <div class="p-field p-col-12 ui-g-4">
             <p:outputLabel value="Гаряча вода" />
         </div>
-        <div class="p-field p-col-12 ui-g-3">
-            <p:inputText placeholder="Попередні" value="#{waterPay.past_warmwater}">
+        <div class="p-field p-col-12 ui-g-4">
+            <p:inputText id="counter3" value="#{waterPay.past_warmwater}">
             	<p:ajax event="keyup" update="out" listener="#{waterPay.handleKeyEvent}" />
             </p:inputText>
         </div>
-         <div class="p-field p-col-12 ui-g-3">
-            <p:inputText placeholder="Поточні" value="#{waterPay.present_warmwater}">
+        <div class="p-field p-col-12 ui-g-4">
+            <p:inputText id="counter4" value="#{waterPay.present_warmwater}">
             	<p:ajax event="keyup" update="out" listener="#{waterPay.handleKeyEvent}" />
-            </p:inputText> 
-        </div>
-         <div class="p-field p-col-12 ui-g-3">
-            <p:inputText placeholder="Борг" /> 
+            </p:inputText>
         </div>
         <div class="p-field p-col-12 ui-g-12">
-        	<p:outputLabel for="out" value="Сума: " />
-            <h:outputText id="out" value="#{waterPay.past_warmwater}" />
+        	     <p:outputLabel for="out" value="Сума: " />
+           		 <h:outputText id="out" value="#{waterPay.pay}" />
         </div>
-       			</div>
-            </div>
+       </div>
+     </h:form>
+	 </div>
         </div>
         
     </ui:define>
