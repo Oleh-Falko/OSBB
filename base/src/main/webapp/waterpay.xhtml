@@ -35,7 +35,7 @@
 			            <p:outputLabel value="Холодна вода" />
 			        </div>
 			        <div class="p-field p-col-12 ui-g-4">
-			            <p:inputText id="counter1" value="#{waterPay.past_coldwater}">
+			            <p:inputText id="counter1" readonly="true" value="#{waterPay.past_coldwater}">
 			            	<p:ajax event="keyup" update="out" listener="#{waterPay.handleKeyEvent}" />
 			            </p:inputText>
 			        </div>
@@ -48,7 +48,7 @@
 			            <p:outputLabel value="Гаряча вода" />
 			        </div>
 			        <div class="p-field p-col-12 ui-g-4">
-			            <p:inputText id="counter3" value="#{waterPay.past_warmwater}">
+			            <p:inputText id="counter3" readonly="true" value="#{waterPay.past_warmwater}">
 			            	<p:ajax event="keyup" update="out" listener="#{waterPay.handleKeyEvent}" />
 			            </p:inputText>
 			        </div>
@@ -65,8 +65,8 @@
 		           		 <h:outputText id="out" value="#{waterPay.pay}" />
 		           	</div>
 		           	<div class="p-field p-col-12 ui-g-8">
-		        	     <p:commandButton value="PDF" id="pdfWater" icon="pi pi-file-pdf" />
-		        	     <p:commandButton value="Оплатити" id="payWater" icon="pi pi-money-bill" />
+		        	     <!-- <p:commandButton style="float: right" value="PDF" id="pdfWater" icon="pi-file-pdf" />  -->
+		        	     <p:commandButton style="float: right"  action="#{waterPay.applyPay}" update = "@form" value="Оплатити" id="payWater" icon="pi-money-bill" />
 		           	</div>
 		        </div>
        		</div>

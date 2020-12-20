@@ -17,44 +17,24 @@ package com.fo.view;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.PrimeFaces;
-import org.primefaces.event.ItemSelectEvent;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.BarChartSeries;
-import org.primefaces.model.chart.BubbleChartModel;
-import org.primefaces.model.chart.BubbleChartSeries;
-import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.CategoryAxis;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.DateAxis;
-import org.primefaces.model.chart.DonutChartModel;
-import org.primefaces.model.chart.HorizontalBarChartModel;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
-import org.primefaces.model.chart.LinearAxis;
-import org.primefaces.model.chart.MeterGaugeChartModel;
-import org.primefaces.model.chart.OhlcChartModel;
-import org.primefaces.model.chart.OhlcChartSeries;
-import org.primefaces.model.chart.PieChartModel;
 
-@Named
+@ManagedBean
 @SessionScoped
 public class UserLogin implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String login;
 	private String pwd;
-	
+	private int id = 0;
 
     @PostConstruct
     public void init() {
@@ -83,13 +63,35 @@ public class UserLogin implements Serializable {
 		this.pwd = pwd;
 	}
 	
-	public void checkLogin() throws Exception {
-		if (login.equals("164") && pwd.equals("164")) {
-			System.out.println("Login success");
-			FacesContext.getCurrentInstance().getExternalContext().redirect("dashboard2.xhtml");			
-		} else {
-			System.out.println("Login failed");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Login failed."));
+	public int getId() {
+		return id;
+	}
+
+
+	public void checkLogin() throws SQLException, IOException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+
+		try {
+			con = ConnectionPool.getConnection();
+			ps = con.prepareStatement("SELECT * FROM users WHERE login=? AND password=?");
+			ps.setString(1, login);
+			ps.setString(2, pwd);
+			rs = ps.executeQuery();
+			
+
+			if (rs.next()) {
+				id = rs.getInt("id");
+				System.out.println("LOGIN_ID="+id);
+				FacesContext.getCurrentInstance().getExternalContext().redirect("dashboard2.xhtml");
+			} else {
+				id = 0;
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Login failed."));
+			} 
+		} finally {
+			ConnectionPool.closeConnection(rs,ps,con);	
 		}
 	}
 

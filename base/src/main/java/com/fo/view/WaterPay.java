@@ -15,43 +15,27 @@
  */
 package com.fo.view;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.PrimeFaces;
-import org.primefaces.event.ItemSelectEvent;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.BarChartSeries;
-import org.primefaces.model.chart.BubbleChartModel;
-import org.primefaces.model.chart.BubbleChartSeries;
-import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.CategoryAxis;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.DateAxis;
-import org.primefaces.model.chart.DonutChartModel;
-import org.primefaces.model.chart.HorizontalBarChartModel;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
-import org.primefaces.model.chart.LinearAxis;
-import org.primefaces.model.chart.MeterGaugeChartModel;
-import org.primefaces.model.chart.OhlcChartModel;
-import org.primefaces.model.chart.OhlcChartSeries;
-import org.primefaces.model.chart.PieChartModel;
 
-@Named
+@ManagedBean
 @SessionScoped
 public class WaterPay implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@ManagedProperty("#{userLogin}")
+    private UserLogin userLogin;
+	
 	private int past_coldwater;
 	private int past_warmwater;
 	private int present_coldwater;
@@ -62,11 +46,45 @@ public class WaterPay implements Serializable {
 	
 	@PostConstruct
     public void init() {
-    	setPast_coldwater(0);
-    	setPast_warmwater(0);
-    	setPresent_coldwater(0);
-    	setPresent_warmwater(0);
-    	setPay(0);
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		
+		try {
+			System.out.println("ID="+userLogin.getId());
+			if(userLogin.getId() == 0) 
+			{
+				System.out.println("fsddsfsdfsfdsdf");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("login2.xhtml");
+				return;
+			}
+			con = ConnectionPool.getConnection();
+			ps = con.prepareStatement("SELECT * FROM waterpay WHERE user_id=? ORDER BY created DESC");
+			ps.setInt(1, userLogin.getId());
+			rs = ps.executeQuery();
+			
+
+			if (rs.next()) {
+				past_coldwater = rs.getInt("cold_value");
+				present_coldwater = past_coldwater;
+				past_warmwater = rs.getInt("warm_value");
+				present_warmwater = past_warmwater;
+			} else {
+				past_coldwater = 0;
+				present_coldwater = past_coldwater;
+				past_warmwater = 0;
+				present_warmwater = past_warmwater;
+			} 
+		} catch(Exception e) {
+			e.printStackTrace();
+			past_coldwater = 0;
+			present_coldwater = past_coldwater;
+			past_warmwater = 0;
+			present_warmwater = past_warmwater;
+		} finally {
+			ConnectionPool.closeConnection(rs,ps,con);	
+		}
 	}
 	
 	
@@ -112,10 +130,47 @@ public class WaterPay implements Serializable {
 		this.pay = pay;
 	}
 	
+	public UserLogin getUserLogin() {
+		return userLogin;
+	}
+
+
+	public void setUserLogin(UserLogin userLogin) {
+		this.userLogin = userLogin;
+	}
+	
 	public void handleKeyEvent()
 	{
 		pay = ((present_coldwater - past_coldwater)*price_coldwater) + ((present_warmwater - past_warmwater)*price_warmwater);
 	}
+
+	public void applyPay()
+	{
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+
+		try {
+			con = ConnectionPool.getConnection();
+			ps = con.prepareStatement("INSERT INTO public.waterpay(\r\n"
+					+ "	user_id, cold_value, warm_value)\r\n"
+					+ "	VALUES (?, ?, ?);");
+			ps.setInt(1, userLogin.getId());
+			ps.setInt(2, present_coldwater);
+			ps.setInt(3, present_warmwater);
+			ps.execute();
+			
+			past_coldwater = present_coldwater;
+			past_warmwater = present_warmwater;
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			ConnectionPool.closeConnection(null,ps,con);	
+		}
+	}
+	
 	
 	
 }
